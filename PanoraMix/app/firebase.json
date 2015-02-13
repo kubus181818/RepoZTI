@@ -1,0 +1,9 @@
+{
+  "firebase": "panoramix",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
