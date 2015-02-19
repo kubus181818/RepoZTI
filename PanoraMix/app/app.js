@@ -1,11 +1,15 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
-angular.module('myApp', [
+var myApp = angular.module('panoramix', [
     'ui.router',
     'myApp.version',
-    'myApp.mainView',
-    'ngAnimate'
+    'ui.bootstrap'
 ]).config(function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise("");
+    $urlRouterProvider.otherwise("/");
+    $stateProvider
+        .state('state1', {
+            url: "/state1",
+            templateUrl: "state1/state1.html"
+        });
 });

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <!--[if lt IE 7]>
-<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<html lang="en" ng-app="panoramix" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>
-<html lang="en" ng-app="myApp" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<html lang="en" ng-app="panoramix" class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>
-<html lang="en" ng-app="myApp" class="no-js lt-ie9"> <![endif]-->
+<html lang="en" ng-app="panoramix" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
-<html lang="en" ng-app="myApp" class="no-js"> <!--<![endif]-->
+<html lang="en" ng-app="panoramix" class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,124 +16,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/css/normalize.css">
     <link rel="stylesheet" href="bower_components/html5-boilerplate/css/main.css">
+    <link href="css/panoraMix.css" rel="stylesheet">
     <link rel="stylesheet" href="app.css">
     <script src="bower_components/html5-boilerplate/js/vendor/modernizr-2.6.2.min.js"></script>
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/panoraMix.css" rel="stylesheet">
-
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(".glyphicon-log-in").click(function(){
-                console.log("TST");
-                $("#loginModal").modal('show');
-            });
-        });
-    </script>
 
 </head>
-<body ng-app="myApp">
-<!-- Navigation -->
-<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">PanoraMix!</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" class="glyphicon glyphicon-log-in"> Login</a></li>
-        </ul>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
+<body ng-app="panoramix">
 
-<!-- Half Page Image Background Carousel Header -->
-<header id="myCarousel" class="carousel slide">
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
+<div ng-controller="LoginModal" ng-init="flag=false">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PanoraMix!</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="" class="glyphicon glyphicon-log-in" ng-show="!flag" ng-click="open()"> Login</a></li>
+                <li><a href="" class="glyphicon glyphicon-log-out" ng-show="flag" ng-click="logout()"> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
 
-    <!-- Wrapper for Slides -->
-    <div class="carousel-inner">
-        <div class="item active">
-            <!-- Set the first background image using inline CSS below. -->
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide One');"></div>
-            <div class="carousel-caption">
-                <h2>{{2*2}}</h2>
-            </div>
-        </div>
-        <div class="item">
-            <!-- Set the second background image using inline CSS below. -->
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Two');"></div>
-            <div class="carousel-caption">
-                <h2>Caption 2</h2>
-            </div>
-        </div>
-        <div class="item">
-            <!-- Set the third background image using inline CSS below. -->
-            <div class="fill" style="background-image:url('http://placehold.it/1900x1080&text=Slide Three');"></div>
-            <div class="carousel-caption">
-                <h2>Caption 3</h2>
-            </div>
-        </div>
+    <div ng-controller="CarouselDemoCtrl">
+        <header id="myCarousel">
+            <carousel interval="myInterval">
+                <slide ng-repeat="slide in slides" active="slide.active">
+                    <img ng-src="{{slide.image}}" style="margin:auto;height: 60vh">
+
+                    <div class="carousel-caption">
+                        <h4>Slide {{$index}}</h4>
+
+                        <p>{{slide.text}}</p>
+                    </div>
+                </slide>
+            </carousel>
+        </header>
+
+
     </div>
 
-    <!-- Controls -->
-    <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-        <span class="icon-prev"></span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" data-slide="next">
-        <span class="icon-next"></span>
-    </a>
-
-</header>
-
-<div id="map-canvas" style="width: 100%; height: 40%"></div>
-
-<div id="loginModal" class="modal fade" >
-    <div class="modal-dialog">
-        <div class="modal-content">
+    <div>
+        <script type="text/ng-template" id="myModalContent.html">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="panel-title">Please Sign In</h3>
+                <h3 class="modal-title">Please sign in</h3>
             </div>
-
-            <!--<div class="modal-body" ng-controller="AuthCtrl">-->
-                <!--<form role="form" ng-submit="register()">-->
-                    <!--<div class="form-group">-->
-
-                        <!--<input type="email" ng-model="user.email" class="form-control" id="email" placeholder="Insert your email">-->
-                    <!--</div>-->
-                    <!--<div class="form-group">-->
-
-                        <!--<input type="password" ng-model="user.password" class="form-control" id="password" placeholder="Insert your password">-->
-                    <!--</div>-->
-
-                    <!--<input type="submit" value="Sign in" class="btn btn-lg btn-success btn-block" />-->
-                <!--</form>-->
-            <!--</div>-->
-        </div>
+            <div class="modal-body">
+                <form role="form" ng-submit="ok()">
+                    <div class="form-group">
+                        <input type="email" ng-model="user.email" class="form-control" id="email"
+                               placeholder="Insert your email">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" ng-model="user.password" class="form-control" id="password"
+                               placeholder="Insert your password">
+                    </div>
+                    <input type="submit" value="Sign in" class="btn btn-success "/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <div ng-show="!flag">{{error.message}}</div>
+                <!--<button class="btn btn-primary" ng-click="ok()">OK</button>-->
+                <!--<button class="btn btn-warning" ng-click="cancel()">Cancel</button>-->
+            </div>
+        </script>
     </div>
 </div>
 
+<div ui-view>
+    <a ui-sref="state1">State 1</a>
+    <a ui-sref="state2">State 2</a>
+</div>
+
+
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-<script src="bower_components/angular-animate/angular-animate.js"></script>
 <script src="app.js"></script>
-<script src="mainView/mainView.js"></script>
-<script src="carouselIndex.js"></script>
-<script src="test.js"></script>
+<script src="state1/state1.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/firebase/firebase.js"></script>
+<script src="bower_components/angularfire/dist/angularfire.js"></script>
 <script src="components/version/version.js"></script>
 <script src="components/version/version-directive.js"></script>
 <script src="components/version/interpolate-filter.js"></script>

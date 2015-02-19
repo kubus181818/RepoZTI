@@ -3,25 +3,30 @@ body {
     height: 100%;
 }
 
-.carousel {
+#myCarousel {
     height: 60%;
 }
 
-.item,
-.active,
-.carousel-inner {
-    height: 100%;
+.myImg {
+    height: 60%;
 }
 
-.fill {
-    width: 100%;
-    height: 100%;
-    background-position: center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    background-size: cover;
-    -o-background-size: cover;
-}
+
+/*.item,*/
+/*.active,*/
+/*.carousel-inner {*/
+    /*height: 100%;*/
+/*}*/
+
+/*.fill {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*background-position: center;*/
+    /*-webkit-background-size: cover;*/
+    /*-moz-background-size: cover;*/
+    /*background-size: cover;*/
+    /*-o-background-size: cover;*/
+/*}*/
 
 footer {
     margin: 50px 0;
