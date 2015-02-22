@@ -1,1 +1,8 @@
-PLEASE LOG INTO FIRSTLY...
+<div ng-controller="MapCtrl">
+<div class="map_container" >
+    <google-map center="map.center" zoom="map.zoom" draggable="true" options="map.options" control="map.control">
+        <markers models="map.markers" coords="'self'" options="'options'" isLabel='true'>
+        </markers>
+    </google-map>
+</div>
+</div>

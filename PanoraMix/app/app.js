@@ -1,11 +1,16 @@
 'use strict';
 
+function onGoogleReady() {
+    angular.bootstrap(document.getElementById("map"), ['app.ui-map']);
+}
+
 // Declare app level module which depends on views, and components
 var myApp = angular.module('panoramix', [
     'ui.router',
     'myApp.version',
     'ui.bootstrap',
-    'firebase'
+    'firebase',
+    'google-maps'
 ]).config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise("/");
     $stateProvider
@@ -31,7 +36,30 @@ var myApp = angular.module('panoramix', [
             templateUrl: "mainState/mainState.html"
         });
 })
-    .run(function($state, $rootScope){
+    .filter('searchFilter', function () {
+        return function (categories, letters) {
+            console.log(categories);
+            if (categories != null && letters!=null && letters.length>0) {
+                var filtered = [];
+                //console.log("Categories...", categories);
+              //  console.log("Filtering...", letters);
+                var letterMatch = new RegExp(letters);
+                for (var key in categories) {
+                    if (categories[key] != undefined){
+                       // console.log(categories[key].name);
+                        if (letterMatch!= null && letterMatch.test(categories[key].name))
+                        {
+                            delete  categories[key];
+                           // filtered.push(categories[key]);
+                        }
+                    }
+                }
+         //       console.log("Filtered", filtered);
+                return categories;
+            }else return categories;
+        }
+    })
+    .run(function ($state, $rootScope) {
         var firebase = new Firebase("https://panoramix.firebaseio.com/");
 
         var authData = firebase.getAuth();
@@ -49,12 +77,12 @@ var myApp = angular.module('panoramix', [
         var slides = $scope.slides = [];
         $scope.addSlide = function () {
             slides.push({
-                image: 'http://placehold.it/1900x1080&text=Slide One',
-                text: ['More', 'Extra', 'Lots of', 'Surplus'][slides.length % 4] + ' ' +
-                ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
+                image: ['http://joeyc.files.wordpress.com/2009/01/nyc_future_2011_skyline_panorama.jpeg', 'http://www.positiveschools.com.au/Images2010/City.jpg', 'http://upload.wikimedia.org/wikipedia/en/9/98/Jersey_City_Panorama.jpg'][slides.length % 3],
+                text: ['New York City', 'Perth', 'Jersey'][slides.length % 3] + ' ' +
+                ['USA', 'Australia', 'USA'][slides.length % 3]
             });
         };
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < 3; i++) {
             $scope.addSlide();
             $scope.posiotion = i;
         }
@@ -96,7 +124,7 @@ var myApp = angular.module('panoramix', [
             login();
         };
 
-        function login(){
+        function login() {
             var firebase = new Firebase("https://panoramix.firebaseio.com/");
             console.log("IN REGISTER");
             firebase.authWithPassword({
@@ -121,7 +149,6 @@ var myApp = angular.module('panoramix', [
                 }
             }
         }
-
 
 
         $scope.cancel = function () {
