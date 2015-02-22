@@ -65,10 +65,11 @@
     <div ng-controller="CarouselDemoCtrl">
         <header id="myCarousel">
             <carousel interval="myInterval">
-                <slide ng-repeat="slide in slides" active="slide.active">
+                <slide ng-repeat="slide in slides" active="slide.active" >
                     <img ng-src="{{slide.image}}" style="margin:auto;height: 40vh; width: 100%">
                     <div class="carousel-caption">
                         <p>{{slide.text}}</p>
+                        <p>{{in}}</p>
                     </div>
                 </slide>
             </carousel>
@@ -118,7 +119,7 @@
 <script src="app.js"></script>
 <script src="state1/state1.js"></script>
 <script src="mainState/mainState.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 <script src="bower_components/firebase/firebase.js"></script>
 <script src="bower_components/angularfire/dist/angularfire.js"></script>
 <script src="components/version/version.js"></script>

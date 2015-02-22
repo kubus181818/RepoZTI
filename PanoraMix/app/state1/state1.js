@@ -35,6 +35,13 @@ myApp.controller('state1Ctrl', function ($scope, $rootScope, $location, $state, 
         console.log("Removed");
     }
 
+    $scope.removeImage = function(cat, index){
+        console.log("Removing image..");
+        cat.images.splice(index, 1);
+        console.log("Image removed");
+
+    }
+
     $scope.addImage = function (cat, index) {
         if (cat.images == undefined)
             cat.images = [];

@@ -1,9 +1,9 @@
 myApp.factory('MarkerCreatorService', function () {
 
-    var markerId = 0;
+    var mId = 0;
 
     function create(latitude, longitude) {
-        var marker = {
+        var mark = {
             options: {
                 animation: 1,
                 labelAnchor: "28 -5",
@@ -11,9 +11,9 @@ myApp.factory('MarkerCreatorService', function () {
             },
             latitude: latitude,
             longitude: longitude,
-            id: ++markerId
+            id: ++mId
         };
-        return marker;
+        return mark;
     }
 
     function invokeSuccessCallback(successCallback, marker) {
@@ -27,48 +27,18 @@ myApp.factory('MarkerCreatorService', function () {
         invokeSuccessCallback(successCallback, marker);
     }
 
-    function createByAddress(address, successCallback) {
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({'address' : address}, function (results, status) {
-            if (status === google.maps.GeocoderStatus.OK) {
-                var firstAddress = results[0];
-                var latitude = firstAddress.geometry.location.lat();
-                var longitude = firstAddress.geometry.location.lng();
-                var marker = create(latitude, longitude);
-                invokeSuccessCallback(successCallback, marker);
-            } else {
-                alert("Unknown address: " + address);
-            }
-        });
-    }
-
-    function createByCurrentLocation(successCallback) {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var marker = create(position.coords.latitude, position.coords.longitude);
-                invokeSuccessCallback(successCallback, marker);
-            });
-        } else {
-            alert('Unable to locate current position');
-        }
-    }
-
     return {
-        createByCoords: createByCoords,
-        createByAddress: createByAddress,
-        createByCurrentLocation: createByCurrentLocation
+        createByCoords: createByCoords
     };
 
 });
 
-myApp.controller('MapCtrl', function (MarkerCreatorService, $scope) {
+myApp.controller('MapCtrl', function (MarkerCreatorService, $scope, $rootScope) {
 
-    MarkerCreatorService.createByCoords(40.454018, -3.509205, function (marker) {
+    MarkerCreatorService.createByCoords(30.454018, -3.509205, function (marker) {
         marker.options.labelContent = 'Autentia';
         $scope.autentiaMarker = marker;
     });
-
-    $scope.address = '';
 
     $scope.map = {
         center: {
@@ -85,27 +55,30 @@ myApp.controller('MapCtrl', function (MarkerCreatorService, $scope) {
 
     $scope.map.markers.push($scope.autentiaMarker);
 
-    $scope.addCurrentLocation = function () {
-        MarkerCreatorService.createByCurrentLocation(function (marker) {
-            marker.options.labelContent = 'You´re here';
-            $scope.map.markers.push(marker);
-            refresh(marker);
-        });
-    };
-
-    $scope.addAddress = function() {
-        var address = $scope.address;
-        if (address !== '') {
-            MarkerCreatorService.createByAddress(address, function(marker) {
-                $scope.map.markers.push(marker);
-                refresh(marker);
-            });
-        }
-    };
-
     function refresh(marker) {
         $scope.map.control.refresh({latitude: marker.latitude,
             longitude: marker.longitude});
     }
+
+    $rootScope.$watch('in', function() {
+        console.log("Refresh?");
+        if($rootScope.in==0){
+            MarkerCreatorService.createByCoords(40.7115108, -73.9982204, function (marker) {
+                $scope.autentiaMarker = marker;
+            });
+            refresh($scope.autentiaMarker);
+        }else if($rootScope.in == 1){
+            MarkerCreatorService.createByCoords(-31.9546529, 115.852662, function (marker) {
+                $scope.autentiaMarker = marker;
+            });
+            refresh($scope.autentiaMarker);
+        }else if($rootScope.in == 2){
+            MarkerCreatorService.createByCoords(49.2111266, -2.1326328, function (marker) {
+                $scope.autentiaMarker = marker;
+            });
+            refresh($scope.autentiaMarker);
+        }
+
+    });
 
 });

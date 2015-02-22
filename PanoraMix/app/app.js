@@ -36,29 +36,29 @@ var myApp = angular.module('panoramix', [
             templateUrl: "mainState/mainState.html"
         });
 })
-    .filter('searchFilter', function () {
-        return function (categories, letters) {
-            console.log(categories);
-            if (categories != null && letters!=null && letters.length>0) {
-                var filtered = [];
-                //console.log("Categories...", categories);
-              //  console.log("Filtering...", letters);
-                var letterMatch = new RegExp(letters);
-                for (var key in categories) {
-                    if (categories[key] != undefined){
-                       // console.log(categories[key].name);
-                        if (letterMatch!= null && letterMatch.test(categories[key].name))
-                        {
-                            delete  categories[key];
-                           // filtered.push(categories[key]);
-                        }
-                    }
-                }
-         //       console.log("Filtered", filtered);
-                return categories;
-            }else return categories;
-        }
-    })
+    //.filter('searchFilter', function () {
+    //    return function (categories, letters) {
+    //        console.log(categories);
+    //        if (categories != null && letters!=null && letters.length>0) {
+    //            var filtered = [];
+    //            //console.log("Categories...", categories);
+    //          //  console.log("Filtering...", letters);
+    //            var letterMatch = new RegExp(letters);
+    //            for (var key in categories) {
+    //                if (categories[key] != undefined){
+    //                   // console.log(categories[key].name);
+    //                    if (letterMatch!= null && letterMatch.test(categories[key].name))
+    //                    {
+    //                        delete  categories[key];
+    //                       // filtered.push(categories[key]);
+    //                    }
+    //                }
+    //            }
+    //     //       console.log("Filtered", filtered);
+    //            return categories;
+    //        }else return categories;
+    //    }
+    //})
     .run(function ($state, $rootScope) {
         var firebase = new Firebase("https://panoramix.firebaseio.com/");
 
@@ -72,8 +72,9 @@ var myApp = angular.module('panoramix', [
             console.log("User is logged out");
         }
     })
-    .controller('CarouselDemoCtrl', function ($scope) {
+    .controller('CarouselDemoCtrl', function ($scope, $rootScope) {
         $scope.myInterval = 5000;
+        $rootScope.currentPosition = null;
         var slides = $scope.slides = [];
         $scope.addSlide = function () {
             slides.push({
@@ -86,7 +87,6 @@ var myApp = angular.module('panoramix', [
             $scope.addSlide();
             $scope.posiotion = i;
         }
-
 
     })
     .controller('LoginModal', function ($scope, $modal, $log, $state, $rootScope) {

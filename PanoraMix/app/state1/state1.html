@@ -1,7 +1,8 @@
 <div class="container-fluid" ng-controller="state1Ctrl">
     <div class="row">
-        <div class="col-sm-4">
-            <table class="table table-striped" style="width: 15%; left: 5px">
+        <div class="col-sm-4 " style="height: 55%;">
+            <h3 style="text-align: center">Your own categories</h3>
+            <table class="table table-bordered" style="width: 15%; left: 5px">
                 <thead>
                 <tr>
                     <th>No.</th>
@@ -9,18 +10,18 @@
                     <th>Show</th>
                     <th>Add Image</th>
                     <th>Remove</th>
-                    <th>
-                        <div class="wrapper">
-                            <input style="width: 80px" type="text" ng-model="searchText" placeholder="search...">
-                            <div class="iconSearch">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </div>
-                        </div>
-                    </th>
+                    <!--<th>-->
+                        <!--<div class="wrapper">-->
+                            <!--<input style="width: 80px" type="text" ng-model="searchText" placeholder="search...">-->
+                            <!--<div class="iconSearch">-->
+                                <!--<span class="glyphicon glyphicon-search"></span>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</th>-->
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="active " ng-repeat="(id, cat) in categories | searchFilter:searchText">
+                <tr class="active " ng-repeat="(id, cat) in categories">
                     <td>{{$index +1 }}</td>
                     <td>{{cat.name}}</td>
                     <td>
@@ -47,8 +48,9 @@
             <div style="right: 5px">
                 <form ng-submit="addCategory()" name="newCat">
                     <div class="form-group">
-                        <input type="text" ng-model="newCategory"
-                               placeholder="Insert category name">
+                        <h4>New category: <span><input type="text" ng-model="newCategory"
+                                                       placeholder="Insert category name"></span></h4>
+
                     </div>
                 </form>
             </div>
@@ -57,8 +59,9 @@
             <div class="container" class="imageBox">
                 <div class="row">
                     <div ng-repeat="cat in categories" ng-if="cat.images!=null && cat.selected">
-                        <div class="col-md-3 col-sm-4 col-xs-6" data-ng-repeat="image in cat.images">
-                            <img ng-click="" class="img-responsive black" ng-if="cat.selected"
+                        <div class="col-md-3 col-sm-4 col-xs-6" data-ng-repeat="(id, image) in cat.images">
+                            <div class="btn glyphicon glyphicon-remove" ng-click="removeImage(cat, id)" style="color: red; left: 90%; top: 25px"></div>
+                            <img ng- class="img-responsive black" ng-if="cat.selected"
                                  ng-src="{{image.url}}"/>
                         </div>
                     </div>
