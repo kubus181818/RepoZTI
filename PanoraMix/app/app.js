@@ -72,7 +72,7 @@ var myApp = angular.module('panoramix', [
             console.log("User is logged out");
         }
     })
-    .controller('CarouselDemoCtrl', function ($scope, $rootScope) {
+    .controller('CarouselController', function ($scope, $rootScope) {
         $scope.myInterval = 5000;
         $rootScope.currentPosition = null;
         var slides = $scope.slides = [];
